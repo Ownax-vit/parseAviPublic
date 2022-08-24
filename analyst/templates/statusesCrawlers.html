@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block libs %}
+    <title>{{ title }}</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.1/chart.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='libs/progressbar/dist/loading-bar.css') }}"/>
+     <script type="text/javascript" src="{{ url_for('static', filename='libs/progressbar/dist/loading-bar.js') }}"></script>
+{% endblock %}
+{% block content %}
+    {% if currentProgressCrawl %}
+
+       <table>
+         <tr>
+            <th>Идентификатор</th>
+            <th>Наименование</th>
+            <th>Количество страниц</th>
+            <th>Текущая страница</th>
+            <th>Статус</th>
+            <th>Текущее объявление на странице</th>
+            <th>Дата</th>
+        </tr>
+        {% for key, value in currentProgressCrawl.items() %}
+        {% if currentProgressCrawl[key]["finish"] %}
+            <tr class="finishRow">
+        {% else %}
+            <tr class="workingRow">
+        {% endif %}
+                    <td>{{ key }}</td>
+                    <td>{{ currentProgressCrawl[key]["objectResearch_id"] }}</td>
+                    <td>{{ currentProgressCrawl[key]["countPages"] }}</td>
+                    <td>{{ currentProgressCrawl[key]["currentPage"] }}</td>
+                    <td>{{ currentProgressCrawl[key]["status"] }} </td>
+                    <td>
+                        {% if currentProgressCrawl[key]['progress'] != 100 %}
+                            {{ currentProgressCrawl[key]["currentItem"] }}
+                        {% endif %}
+                        <div class="ldBar" data-value="{{ currentProgressCrawl[key]['progress']}}"></div>
+                    </td>
+                    <td>{{ currentProgressCrawl[key]["date"] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {% else %}
+        <h2 class="title-cards">Информации о статусах не найдено!</h2>
+    {% endif %}
+{% endblock %}

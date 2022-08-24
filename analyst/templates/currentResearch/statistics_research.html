@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block libs %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.1/chart.js"></script>
+
+{% endblock %}
+
+{% block content %}
+    <h3>{{ urlResearch}}</h3>
+
+    <div class="charts">
+            <div class="char">
+                <canvas id="myChartQItems" width="400" height="400"></canvas>
+            </div>
+            <div class="char">
+                <canvas id="myChartViews" width="400" height="400"></canvas>
+            </div>
+    </div>
+    <div class="charts">
+            <div class="char">
+                <canvas id="myChartPrices" width="400" height="400"></canvas>
+            </div>
+            <div class="char">
+                <canvas id="myChartDemandFactor" width="400" height="400"></canvas>
+            </div>
+    </div>
+
+<script>
+
+    const dataQItems = {
+      datasets: [{
+        label: 'Count Items',
+        backgroundColor: "#f31436b3",
+        borderColor: "#f31436b3",
+        data: [{% for x in data_statistics %} {  x:"{{ x[2].strftime('%Y-%m-%d') }}", y:{{ x[4]|float }} }, {% endfor %}],
+      }]
+    };
+    const configQItems = {
+         type: 'line',
+         data: dataQItems,
+         options: {}
+    };
+    var myChartQItems = new Chart(
+        document.getElementById('myChartQItems'),
+        configQItems
+     );
+
+
+    const dataViews = {
+        datasets: [{
+        label: 'Views',
+        backgroundColor: "#f31436b3",
+        borderColor: "#f31436b3",
+        data: [{% for x in data_statistics %} {  x:"{{ x[2].strftime('%Y-%m-%d') }}", y:{{ x[5]|float }} }, {% endfor %}],
+      }]
+    };
+    const configViews = {
+         type: 'line',
+         data: dataViews,
+         options: {
+
+         }
+    };
+    var myChartViews = new Chart(
+        document.getElementById('myChartViews'),
+        configViews
+     );
+
+
+    const dataPrices = {
+        labels: [{% for x in data_statistics %} "{{ x[2].strftime('%Y-%m-%d') }}", {% endfor %}],
+        datasets: [{
+            label: 'Avg Price',
+            backgroundColor: "#f31436b3",
+            borderColor: "#f31436b3",
+            data: [{% for x in data_statistics %} {{ x[7]|float }}, {% endfor %}],
+          },{
+            label: 'Median Price',
+            backgroundColor: "#f31436b3",
+            borderColor: "#f31436b3",
+            data: [{% for x in data_statistics %} {{ x[11]|float }}, {% endfor %}],
+          },{
+            label: 'Max Price',
+            backgroundColor: "#f31436b3",
+            borderColor: "#f31436b3",
+            data: [{% for x in data_statistics %} {{ x[8]|float }}, {% endfor %}],
+          },{
+            label: 'Min Price',
+            backgroundColor: "#f31436b3",
+            borderColor: "#f31436b3",
+            data: [{% for x in data_statistics %} {{ x[9]|float }}, {% endfor %}],
+          },
+      ]
+    };
+
+    const configPrices = {
+         type: 'line',
+         data: dataPrices ,
+         options: {}
+    };
+    var myChartPrices = new Chart(
+        document.getElementById('myChartPrices'),
+        configPrices
+     );
+     const dataDFactors = {
+        datasets: [{
+        label: 'Demand Factor',
+        backgroundColor: "#f31436b3",
+        borderColor: "#f31436b3",
+        data: [{% for x in data_statistics %} {  x:"{{ x[2].strftime('%Y-%m-%d') }}", y:{{ "%.4f"| format(x[3]|float) }} }, {% endfor %}],
+      }]
+    };
+    const configDFactors  = {
+         type: 'line',
+         data: dataDFactors,
+         options: {}
+    };
+    var myChartDFactors  = new Chart(
+        document.getElementById('myChartDemandFactor'),
+        configDFactors
+     );
+</script>
+{% endblock %}

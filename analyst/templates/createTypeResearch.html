@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+     <form action="" class="form-create" method="post" novalidate>
+           <h3>Создание категории</h3>
+           {{ form.csrf_token }}
+           {{ form.hidden_tag() }}
+             <ul>
+                  <li>
+                    {{ form.name.label }}<br>
+                    {{ form.name(size=32) }}
+                    {% for error in form.name.errors %}
+                        {{ error }}
+                    {% endfor %}
+                  </li>
+                  <li>
+                        {{ form.description.label }}<br>
+                        {{ form.description(size=32) }}
+                        {% for error in form.description.errors %}
+                            {{ error }}
+                        {% endfor %}
+                  </li>
+
+                <li class="submit-btn">{{ form.submit() }}</li>
+
+             </ul>
+        </form>
+{% endblock %}

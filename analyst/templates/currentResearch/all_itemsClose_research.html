@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+{% block libs %}
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.1/chart.js"></script>
+
+<!--     <script src="https://kit.fontawesome.com/a507bf0cca.js" crossorigin="anonymous"></script>-->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+
+
+{% endblock %}
+{% block content %}
+
+    {% if isData %}
+
+           <table>
+                <tr>
+                    <th>Id</th>
+                    {% if not(isYoula) %}
+                        <th>Img</th>
+                    {% endif %}
+                    <th>Name</th>
+                    <th>SparkLine New Views <br> SparkLine change Price</th>
+
+
+                    <th>Source</th>
+                    <th>Last Price</th>
+                    <th>Location</th>
+                    <th>Author rate</th>
+                    <th>Date added</th>
+                    <th>Date update</th>
+                </tr>
+                {% for item in items_research %}
+                  <tr>
+                    <td>{{ item[0] }}</td>
+                     {% if not(isYoula) %}
+                        <td><img src="{{ item[11] }}" alt="image" width="200px" height="150px;"></td>
+                      {% endif %}
+
+        <!--            <td>{{ item[1] }}</td> status_id-->
+                    <td>{{ item[2] }}</td>
+                    <td>
+                      {% if not(isYoula) %}
+                            <canvas id="sparklineViews{{ item[0] }}" width="200" height="70"> </canvas>
+                      {% endif %}
+                            <canvas id="sparklinePrices{{ item[0] }}" width="200" height="70"> </canvas>
+                    </td>
+                    <td><a  href="{{ item[3] }}" target="_blank">Перейти</a></td>
+                    <td>{{ item[4] }}</td>
+        <!--              <td>{{ item[5] }}</td> description -->
+                    <td>{{ item[6] }}</td>
+                    <td>{{ item[8] }}</td>
+                    <td>{{ item[9].strftime('%B-%d, %H:%M:%S') }}</td>
+                    <td>{{ item[10].strftime('%B-%d, %H:%M:%S') }}</td>
+                  </tr>
+                {% endfor %}
+            </table>
+
+
+
+            <div class="pagination">
+                {% if start_url %}
+                    <a href="{{ start_url }}">1</a>
+                {% endif %}
+                {% if prev_url %}
+                    <a href="{{ prev_url }}">{{ page-1 }}</a>
+                {% endif %}
+                <span>{{ page }}</span>
+                {% if next_url %}
+                    <a href="{{ next_url }}">{{ page+1 }}</a>
+                {% endif %}
+
+                {% if end_url %}
+                    <a href="{{ end_url }}">{{ pages }}</a>
+                {% endif %}
+            </div>
+
+
+
+
+    <script>
+
+        {% if not(isYoula) %}
+             function createSparkLineViews(id, data){
+            const ctx = document.getElementById('sparklineViews'+id).getContext('2d');
+            const chart = new Chart(ctx, {
+              type: 'line',
+              data: {
+
+                datasets: [
+                  {
+                    data: data,
+                    backgroundColor: "#f31538",
+                    borderColor: "#f31538",
+                  }
+                ]
+              },
+              options: {
+                                        responsive: false,
+                                        plugins:{
+                                              legend: {
+                                                  display: false
+                                              },
+                                               tooltips: {
+                                                  enabled: false
+                                               },
+                                        },
+                                        elements: {
+                                          line: {
+                                            borderColor: '#f31538',
+                                            borderWidth: 1
+                                          },
+                                          point: {
+                                            radius: 0
+                                          }
+                                        },
+                                        scales: {
+                                          x: {
+                                                  grid: {
+                                                    color: 'black',
+                                                    borderColor: 'black',
+                                                    tickColor: "black"
+                                                  },
+                                                  ticks: {
+                                                    color: '#f31538',
+                                                 
+                                                  }
+                                          },
+                                          y: {
+                                                  grid: {
+                                                    color: 'black',
+                                                    borderColor: 'black'
+                                                  },
+                                                  ticks: {
+                                                    color: '#f31538',
+                                                  }
+                                          }
+                                        },
+              }
+            });
+
+        };
+
+
+        {% for key, value in dictnewViews.items() %}
+                createSparkLineViews({{ key }}, [{% for i in value %} { x:"{{ i[0].strftime('%m-%d') }}", y:{{ i[1] }} }, {% endfor %}])
+        {% endfor %}
+
+        {% endif %}
+
+
+
+        function createSparkLinePrices(id, data){
+            const ctx = document.getElementById('sparklinePrices'+id).getContext('2d');
+            const chart = new Chart(ctx, {
+              type: 'line',
+              data: {
+
+                datasets: [
+                  {
+                    data: data
+                  }
+                ]
+              },
+              options: {
+                                        responsive: false,
+                                        plugins:{
+                                              legend: {
+                                                  display: false
+                                              },
+                                               tooltips: {
+                                                  enabled: false
+                                               },
+                                        },
+                                        elements: {
+                                          line: {
+                                            borderColor: '#f31538',
+                                            borderWidth: 1
+                                          },
+                                          point: {
+                                            radius: 0
+                                          }
+                                        },
+                                        scales: {
+                                          x: {
+                                                  grid: {
+                                                    color: 'black',
+                                                    borderColor: 'black',
+                                                    tickColor: "black"
+                                                  },
+                                                  ticks: {
+                                                    color: '#f31538',
+                                                 
+                                                  }
+                                          },
+                                          y: {
+                                                  grid: {
+                                                    color: 'black',
+                                                    borderColor: 'black'
+                                                  },
+                                                  ticks: {
+                                                    color: '#f31538',
+                                                  }
+                                          }
+                                        },
+              }
+            });
+
+        };
+
+        {% for key, value in dictPrices.items() %}
+                createSparkLinePrices({{ key }}, [{% for i in value %} { x:"{{ i[0].strftime('%m-%d') }}", y:{{ i[1]|float  }} }, {% endfor %}])
+        {% endfor %}
+
+
+
+
+    </script>
+    {% else %}
+
+        <h2>Данных нет!</h2>
+
+
+    {% endif %}
+{% endblock %}

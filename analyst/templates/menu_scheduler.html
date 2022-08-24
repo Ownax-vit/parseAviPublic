@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block libs %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.1/chart.js"></script>
+{% endblock %}
+{% block content %}
+
+    {% if jobs %}
+
+
+            <div class="char">
+                  <canvas id="myChartJobTime"></canvas>
+            </div>
+           <button id="rmvAllJob" class="hover-effect-red" href="javascript:void()"
+                   onclick="remove_all_jobs()">
+               Удалить все задачи</button>
+
+
+           <div class="cardsMenuSheduler">
+                {% for job in jobs %}
+                <div class="cardMenuSheduler">
+
+
+                <h4>Идентификатор: {{ job.id }}</h4>
+                <form id='update_date_research_{{ job.id }}'
+                         action="{{ url_for('update_date_research', objectResearch_id=job.id) }}"
+                         method="post" >
+                    {{ form.csrf_token }}
+
+                        {{ form.dateCrawl .label }}
+                        {{ form.dateCrawl (class='datepicker', value=job.next_run_time.strftime('%Y-%m-%dT%H:%M')) }}
+
+                        {% for error in form.dateCrawl.errors %}
+                            {{ error }}
+                        {% endfor %}
+
+                <a  id='changeTimeBtn' href="javascript:void()" onclick="update_date_research_{{ job.id }}()">
+                                            Изменить</a>
+                </form>
+
+                <form id='removeJob_{{ job.id }}'
+                      action="{{ url_for('removeJob', objectResearch_id=job.id) }}"
+                      method="post">
+                       {{ form.csrf_token }}
+                      <a  id="rmvJobBtn" href="javascript:void()" onclick="removeJob_{{ job.id }}()">
+                                            Удалить</a>
+                </form>
+
+
+                <script>
+                    function update_date_research_{{ job.id }}(){
+                                                if (confirm('Вы уверены?')){
+                                                    document.getElementById('update_date_research_{{ job.id }}').submit()
+                                                }
+                                            }
+
+                    function removeJob_{{ job.id }}(){
+                                                if (confirm('Вы уверены?')){
+                                                    document.getElementById('removeJob_{{ job.id }}').submit()
+                                                }
+                                            }
+
+                </script>
+                </div>
+
+                {% endfor %}
+
+
+            </div>
+
+
+
+
+    {% else %}
+        <h2 class="title-cards">Задач нет!</h2>
+    {% endif %}
+<script>
+         function remove_all_jobs(){
+                                  if (confirm('Вы уверены?')){
+                                        window.location = "{{ url_for('remove_all_jobs') }}";
+                                      }
+                    }
+
+            const dataJobTime = {
+                    datasets: [{
+                    type: 'bar',
+                    label: 'График загруженности',
+                    backgroundColor: '#ffffff',
+                    borderColor: '#ffffff',
+                    data: [{% for x, y in dataJobTime.items() %} { x:"{{ x }}:00", y:{{ y }} }, {% endfor %}],
+                  },{
+                    type: 'line',
+                    label: 'Предел загруженности',
+                    backgroundColor: 'red',
+                    borderColor: 'red',
+                    data: [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+
+                  }
+                  ]
+            };
+
+            const configDFactors  = {
+                 data: dataJobTime,
+                 options: {
+                            elements: {
+                                    point:{
+                                        radius: 0
+                                    }
+                           },
+                           scales: {
+                                    x: {
+                                      grid: {
+                                        color: 'rgba(255,0,0,0.1)',
+                                        borderColor: 'white'
+                                      },
+                                      ticks: {
+                                        color: 'white',
+                                      }
+                                    },
+                                    y: {
+                                      grid: {
+                                        color: 'rgba(0,255,0,0.1)',
+                                        borderColor: 'white'
+                                      },
+                                      ticks: {
+                                        color: 'white',
+                                      }
+                                    }
+                           },
+
+                 }
+            };
+            var myChartDFactors  = new Chart(
+                document.getElementById('myChartJobTime'),
+                configDFactors
+             );
+
+
+
+</script>
+
+
+{% endblock %}

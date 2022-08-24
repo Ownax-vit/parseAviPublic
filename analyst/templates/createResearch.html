@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+     <form class="form-create" action="" method="post" novalidate>
+          <h3>Создание исследования:</h3>
+            {{ form.csrf_token }}
+            {{ form.hidden_tag() }}
+         <ul>
+             <li>
+                {{ form.name.label }}<br>
+                {{ form.name(size=32) }}
+                {% for error in form.name.errors %}
+                    {{ error }}
+                {% endfor %}
+             </li>
+             <li>
+                {{ form.description.label }}<br>
+                {{ form.description(size=32) }}
+                {% for error in form.description.errors %}
+                    {{ error }}
+                {% endfor %}
+             </li>
+             <li>
+                {{ form.url.label}}<br>
+                {{ form.url}}
+                {% for error in form.url.errors %}
+                    {{ error }}
+                {% endfor %}
+             </li>
+             <li>
+                {{ form.typeResearch.label}}<br>
+                {{ form.typeResearch }}
+                {% for error in form.typeResearch.errors %}
+                    {{ error }}
+                {% endfor %}
+             </li>
+             <li>
+                {{ form.submit() }}
+             </li>
+
+          </ul>
+
+        </form>
+
+
+{% endblock %}

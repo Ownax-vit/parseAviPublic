@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,400;0,700;1,300&display=swap"
+      rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+
+     <script>
+        window.onload = function () {
+            document.body.classList.add('loaded_hiding');
+            window.setTimeout(function () {
+              document.body.classList.add('loaded');
+              document.body.classList.remove('loaded_hiding');
+            }, 500);
+         }
+    </script>
+     {% block libs %}
+
+      {% endblock %}
+</head>
+<body>
+            <div class="preloader">
+                      <svg class="preloader__image" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path fill="currentColor"
+                          d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48
+                          368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48
+                          21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0
+                          256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49
+                          48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49
+                          48-48c0-26.509-21.49-48-48-48zM108.922
+                          60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z">
+                        </path>
+                      </svg>
+
+            </div>
+
+       <div class="messages">
+             {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <ul class=flashes>
+                    {% for message in messages %}
+                         <li class="alert">
+                            {{ message }}
+                            <span class="closebtn"
+                                onclick="this.parentElement.style.display='none';">
+                                &times;
+                            </span>
+
+                         </li>
+                    {% endfor %}
+                </ul>
+              {% endif %}
+            {% endwith %}
+        </div>
+
+
+
+
+    {% if objectResearch_id %}
+
+                        <div class="sidebar">
+                          <div class="logo_content">
+                              <a href="{{ url_for('index') }}" class="link_index">
+                                   <div class="logo">
+                                      <i class='bx bx-pie-chart-alt-2' ></i>
+                                      <div class="logo_name">
+                                        parseAvi
+                                      </div>
+                                    </div>
+                              </a>
+                              <h4 id="identificatorResearchSidebar">id: {{ objectResearch_id }}</h4>
+                              <h5 id="titleResearchSidebar">{{ objectResearchName }}</h5>
+
+                            <i class='bx bx-menu bx-lg' id="btn"></i>
+                              <hr class="sideLine">
+
+                          </div>
+                          <ul class="nav_list top">
+                               <li>
+                                  <a href="{{ url_for('getStatistics_Research', objectResearch_id=objectResearch_id) }}">
+                                      <i class='bx bx-analyse bx-md' ></i>
+                                      <span class="links_name">Общая статистика</span>
+                                  </a>
+                              </li>
+                              <li>
+                                  <a href="{{ url_for('getMap_items', objectResearch_id=objectResearch_id ) }}">
+                                      <i class='bx bxs-map-alt bx-md'></i>
+                                      <span class="links_name">Карта</span>
+                                  </a>
+
+                              </li>
+
+                          </ul>
+                          <ul class="nav_list">
+<!--                              <li>-->
+<!--                                  <a href="#">-->
+<!--                                      <i class='bx bx-search' ></i>-->
+<!--                                      <input type="text" placeholder="Search..">-->
+<!--                                  </a>-->
+<!--                                            <span class="tooltip">Dashboard</span>-->
+<!--                              </li>-->
+
+                               <li>
+                                  <a href="{{ url_for('getListItems', objectResearch_id=objectResearch_id ) }}">
+                                      <i class='bx bx-list-ul bx-md'></i>
+                                      <span class="links_name">Итемы</span>
+                                  </a>
+
+                              </li>
+                              <li>
+                                  <a href="{{ url_for('getListItemsClose', objectResearch_id=objectResearch_id ) }}">
+                                      <i class='bx bx-list-minus bx-md'></i>
+                                      <span class="links_name">Закрытые итемы</span>
+                                  </a>
+
+                              </li>
+                               <li>
+                                  <a href="{{ url_for('getListItemsDPrice', objectResearch_id=objectResearch_id ) }}">
+                                      <i class='bx bx-stats bx-md'></i>
+                                      <span class="links_name">Хронология цен</span>
+                                  </a>
+
+                              </li>
+                                <li>
+                                  <a href="{{ url_for('getListItemsSortViews', objectResearch_id=objectResearch_id ) }}">
+                                      <i class='bx bx-sort bx-md'></i>
+                                      <span class="links_name">Просмотры</span>
+                                  </a>
+
+                              </li>
+
+                               <li>
+                                   <br>
+                                  <a href="#">
+                                      <i class='bx bxs-report bx-md' ></i>
+                                      <span class="links_name">Отчетность</span>
+                                  </a>
+                                            <span class="tooltip">Dashboard</span>
+                              </li>
+                          </ul>
+                          <div class="profile_content">
+                              <div class="profile">
+                                  <div class="profile_details">
+                    <!--                  <img src="profile.jpg" alt="profile">-->
+                                      <a href="{{ url_for('index') }}" class="link_index">
+                                          На главную
+                                      </a>
+
+
+                                      <div class="name_user">
+
+                                      </div>
+                                  </div>
+                                 <img  id="log_out" src="{{ url_for('static', filename='img/icons/logout.png') }}" alt="">
+
+<!--                                  <i class='bx bxs-log-out-circle' id="log_out"></i>-->
+                              </div>
+                          </div>
+                      </div>
+                        <div class="content">
+
+                                    {% block content %}
+                                    {% endblock %}
+
+                        </div>
+
+
+                      <script>
+
+                        /* САЙДБАР БЛОК */
+                          let btn = document.querySelector("#btn");
+                          let sidebar = document.querySelector(".sidebar");
+                          let searchBtn = document.querySelector(".bx-search");
+
+                          btn.onclick = function(){
+                            sidebar.classList.toggle("active");
+                          }
+<!--                          searchBtn.onclick = function(){-->
+<!--                            sidebar.classList.toggle("active");-->
+<!--                          }-->
+
+                      </script>
+
+    {% else %}
+            <nav class="top-nav">
+                <div class="left">
+                             <a class='btn-top-nav index-btn' href="{{ url_for('index') }}">
+                                 <img src="{{ url_for('static', filename='img/icons/home.png') }}" alt="">
+                                 Главная
+                             </a>
+                             <a class='btn-top-nav index-btn'
+                                   href="{{ url_for('getStatusesCrawlers') }}">
+                                  <img src="{{ url_for('static', filename='img/icons/status.png') }}" alt="">
+                                  Состояния
+                             </a>
+                </div>
+                <div>
+                            <a class='btn-top-nav' href="{{ url_for('menu_scheduler') }}">
+                                 <img src="{{ url_for('static', filename='img/icons/schedule.png') }}" alt="">
+                                 Планировщик
+
+                            </a>
+                             <a class='btn-top-nav' href="{{ url_for('createResearch') }}">
+                                 <img src="{{ url_for('static', filename='img/icons/create.png') }}" alt="">
+                                 Создать исследование
+                             </a>
+                            <a class='btn-top-nav' href="{{ url_for('createTypeResearch') }}">
+                                <img src="{{ url_for('static', filename='img/icons/pencil.png') }}" alt="">
+                                Создать категорию
+                            </a>
+                </div>
+            </nav>
+
+               {% if objectResearch_id %}
+                     <div class="container-research">
+                         {{ self.content() }}
+                     </div>
+               {% else %}
+                    <div class="container-main">
+
+                       <div class="container-block">
+                            <h3 class="container-block-title">Блок статистики</h3>
+                               <div class="block-statistic">
+                                    <ul>
+                                        <li>Количество объектов в БД: <b>{{ countItems }}</b></li>
+                                        <li>Данные дополнятся </li>
+                                        <li>Данные дополнятся </li>
+                                        <li>Данные дополнятся </li>
+                                        <li>Данные дополнятся </li>
+                                    </ul>
+                               </div>
+                        </div>
+                        <div class="main-block">
+                            {{ self.content() }}
+                        </div>
+                        <div class="container-block-right">
+<!--                                <div class="block-random-items">-->
+                                    <h3 class="container-block-title">Блок случайных объектов</h3>
+                                    <div class="block-item">
+                                        <h5><b>Последний объект</b></h5>
+                                           {% for item in lastItemUpdate %}
+                                                <h5>id {{ item[0] }}</h5>
+                                                 <img src="{{ item[7] }}" class="block-item-img" alt="">
+                                                <h6>
+                                                    <a href="{{ item[3] }}">{{ item[2] }}</a>
+                                                </h6>
+                                                <p>Цена: {{ item[4] }} </p>
+                                           {% endfor %}
+                                    </div>
+                                    <div class="block-item">
+                                        <h5><b>Самый дорогой объект</b></h5>
+                                           {% for item in maxPriceItem %}
+                                                <h5>id {{ item[0] }}</h5>
+                                                 <img src="{{ item[7] }}" class="block-item-img" alt="">
+
+                                                <h6>
+                                                    <a href="{{ item[3] }}">{{ item[2] }}</a>
+                                                </h6>
+                                                <p>Цена: {{ item[4] }} </p>
+                                           {% endfor %}
+                                    </div>
+                                    <div class="block-item">
+                                        <h5><b>Случайный объект</b></h5>
+                                           {% for item in randomItem %}
+                                                <h5>id {{ item[0] }}</h5>
+                                                 <img src="{{ item[7] }}" class="block-item-img" alt="">
+
+                                                <h6>
+                                                    <a href="{{ item[3] }}">{{ item[2] }}</a>
+                                                </h6>
+                                                <p>Цена: {{ item[4] }} </p>
+                                           {% endfor %}
+                                    </div>
+<!--                                </div>-->
+                        </div>
+                     </div>
+               {% endif %}
+
+
+        <footer>
+            <div class="footer-block">
+                            <h3> ParseAVI </h3>
+            </div>
+        </footer>
+    {% endif %}
+</body>
+</html>

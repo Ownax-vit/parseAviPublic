@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h2 class="title-cards">КАТЕГОРИИ</h2>
+    <div class="cards">
+        {% for category in all_category %}
+            <div class="card ">
+                <h4> {{ category[1] }} </h4>
+                <p>{{ category[3] }}</p>
+                <a class="btn-card-link hover-effect-red" href="/researchs/{{ category[0] }}">Перейти</a>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

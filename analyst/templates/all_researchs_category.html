@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+    {% if all_researchs_category %}
+        <h3 class="title-cards">Объекты</h3>
+        <div class="cards">
+        {% for research in all_researchs_category %}
+
+            <div class="card">
+
+
+                        <div class="top-card">
+                               <div class="left"><span>id:</span>
+                                   <b>{{ research[0] }}</b>
+                               </div>
+                               <div class="right"><span><i class="bi bi-clock"></i></span>
+                                   <b>{{ research[6].strftime('%Y-%d, %H:%M:%S') }}
+                                   </b>
+                               </div>
+                        </div>
+                        <div class="name-card">
+                             <h3> {{ research[3] }} </h3>
+                        </div>
+                        <div class="description-card">
+                            <p class="description">{{ research[3] }}</p>
+                        </div>
+
+                        <div class="panel-card">
+                            <div class="left-panel-card">
+                                <a class="hover-effect-red" href="{{ url_for('addJob', objectResearch_id=research[0] ) }}"><i class="bi bi-journal-plus"></i></a>
+                                <a class="hover-effect-red" href="{{ url_for('runJobNow', objectResearch_id=research[0] ) }}"><i class="bi bi-play-fill"></i></a>
+                                <a class="hover-effect-red" href="{{ url_for('pauseJobNow', objectResearch_id=research[0] ) }}"><i class="bi bi-pause"></i></a>
+                            </div>
+                            <div class="right-panel-card">
+                                   <form id='removeResearch_{{ research[0] }}'
+                                      action="{{ url_for('removeResearch', objectResearch_id=research[0]) }}"
+                                      method="post">
+                                       {{ form.csrf_token }}
+                                      <a class="hover-effect-red" style="color:red"  class="rmv-btn-card" href="javascript:void()" onclick="removeResearch_{{ research[0] }}()">
+                                      <i class="bi bi-x-lg"></i></a>
+                            </form>
+
+
+                                <script>
+                                   function removeResearch_{{ research[0] }}(){
+                                                                if (confirm('Вы уверены что хотите удалить данное исследование?')){
+                                                                    document.getElementById('removeResearch_{{ research[0]}}').submit()
+                                                                }
+                                                            }
+                                </script>
+                            </div>
+
+                        </div>
+
+                        <div class="btn-card-link hover-effect-red">
+                            <a href="{{ url_for('getListItems', objectResearch_id=research[0] ) }}"> Перейти</a>
+                        </div>
+
+
+
+             </div>
+        {% endfor %}
+
+        </div>
+    {% else %}
+        <h2 class="title-cards" >Исследований нет</h2>
+    {% endif %}
+
+{% endblock %}
