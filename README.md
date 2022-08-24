@@ -35,10 +35,10 @@
 ![Использование карты](readmi-source/using-map.gif)
 #### Использование карты
 
-![Изучение хронологий объектов](readmi-source/using-chronologies.gif)
+![Изучение хронологий объектов](readmi-source/chronologies.png)
 #### Изучение хронологии объектов
 
-![Использование планировщика](readmi-source/using-scheduler.gif)
+![Использование планировщика](readmi-source/scheduler.png)
 #### Использование планировщика
 
 Используемые технологии:
