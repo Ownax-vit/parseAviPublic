@@ -24,17 +24,9 @@ def index():
     title = "Главная"
     allCategories = objectResearch.getAllCategories()
 
-    countItems = objectResearch.getCountObjectAnalyst()
-    lastItemUpdate = objectResearch.getLastItemUpdate()
-    maxPriceItem = objectResearch.getMaxPriceItem()
-    randomItem = objectResearch.getRandomItem()
 
     return render_template('index.html',  all_category=allCategories,
-                           title=title,
-                           countItems=countItems,
-                           lastItemUpdate=lastItemUpdate,
-                           maxPriceItem=maxPriceItem,
-                           randomItem=randomItem)
+                           title=title,)
 
 
 @app.route('/createResearch', methods=['GET', 'POST'])
@@ -45,10 +37,6 @@ def createResearch():
     """
     title = "Создание исследования"
 
-    countItems = objectResearch.getCountObjectAnalyst()
-    lastItemUpdate = objectResearch.getLastItemUpdate()
-    maxPriceItem = objectResearch.getMaxPriceItem()
-    randomItem = objectResearch.getRandomItem()
 
     form = ResearchForm()
     typesResearch = objectResearch.getTypesResearch()
@@ -85,8 +73,6 @@ def createResearch():
     return render_template('createResearch.html',
                            form=form,
                            title=title,
-                           countItems=countItems, lastItemUpdate=lastItemUpdate,
-                           maxPriceItem=maxPriceItem, randomItem=randomItem
                            )
 
 
@@ -95,10 +81,6 @@ def createTypeResearch():
     """ Создание типа исследования """
     title = "Создание категории исследования"
 
-    countItems = objectResearch.getCountObjectAnalyst()
-    lastItemUpdate = objectResearch.getLastItemUpdate()
-    maxPriceItem = objectResearch.getMaxPriceItem()
-    randomItem = objectResearch.getRandomItem()
 
     form = ResearchTypeForm()
 
@@ -119,10 +101,6 @@ def createTypeResearch():
     return render_template('createTypeResearch.html',
                            form=form,
                            title=title,
-                           countItems=countItems,
-                           lastItemUpdate=lastItemUpdate,
-                           maxPriceItem=maxPriceItem,
-                           randomItem=randomItem
                            )
 
 
@@ -132,19 +110,12 @@ def getResearchs_category(category_id):
     title = "Список исследований"
     form = DeleteResearch()  # форма для удаления исследований
 
-    countItems = objectResearch.getCountObjectAnalystCategory(category_id)
-    lastItemUpdate = objectResearch.getLastItemUpdateCategory(category_id)
-    maxPriceItem = objectResearch.getMaxPriceItemCategory(category_id)
-    randomItem = objectResearch.getRandomItemCategory(category_id)
-
     all_researchs_category = objectResearch.getResearchsCategory(category_id)
     return render_template('all_researchs_category.html',
                            all_researchs_category=all_researchs_category,
                            category_id=category_id,
                            form=form,
                            title=title,
-                           countItems=countItems, lastItemUpdate=lastItemUpdate,
-                           maxPriceItem=maxPriceItem, randomItem=randomItem
                            )
 
 
@@ -164,10 +135,6 @@ def getStatusesCrawlers():
     """ Страница статусов кроулеров """
     title = f"Статусы кроулеров"
 
-    countItems = objectResearch.getCountObjectAnalyst()
-    lastItemUpdate = objectResearch.getLastItemUpdate()
-    maxPriceItem = objectResearch.getMaxPriceItem()
-    randomItem = objectResearch.getRandomItem()
 
     try:
         currentProgressCrawl = objectStatuses.getAllCrawlers()
@@ -181,9 +148,8 @@ def getStatusesCrawlers():
     return render_template('statusesCrawlers.html',
                            title=title,
                            currentProgressCrawl=currentProgressCrawl,
-                           countItems=countItems, lastItemUpdate=lastItemUpdate,
-                           maxPriceItem=maxPriceItem, randomItem=randomItem
                            )
+
 
 @app.route('/getStatistics_Research/<int:objectResearch_id>')
 def getStatistics_Research(objectResearch_id):
