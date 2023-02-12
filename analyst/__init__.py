@@ -30,8 +30,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 dbAlchemy = SQLAlchemy(app)
 migrate = Migrate(app, dbAlchemy)
 
-newItemsId = []  # глобальный список id новых объявлений
-currentProgressCrawl = {}  # глобальный прогресс парсинга
 
 from analyst import routes
 from analyst import errors
